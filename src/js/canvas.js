@@ -1,21 +1,27 @@
+console.log("innerWidth", innerWidth)
+console.log("innerHeight", innerHeight)
+
+const numOfStars = 15000
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
+trackTransforms(c)
 
-canvas.width = innerWidth;
-canvas.height = innerHeight;
+canvas.width = 13000
+canvas.height = 13000
 
 addEventListener('resize', () => {
     canvas.width = innerWidth;
     canvas.height = innerHeight;
-
     init();
 });
+
+// document.getElementById("resetZoom").addEventListener("click", resetZoom)
 
 class Star {
     constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.radius = Math.random() * 2;
+        this.radius = Math.random() * 1;
     }
 
     draw() {
@@ -27,7 +33,8 @@ class Star {
 }
 
 class Planet {
-    constructor(x, y, radius, color, velocity, orbitRadius) {
+    constructor(x, y, radius, color, velocity, orbitRadius, name) {
+        this.name = name;
         this.x = x;
         this.y = y;
         this.startX = x;
@@ -57,7 +64,7 @@ class Planet {
             Math.PI * 2,
             false
         );
-        c.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+        c.strokeStyle = 'rgba(255, 255, 255, 0.30)';
         c.stroke();
 
         // Planet
@@ -69,12 +76,11 @@ class Planet {
         c.fill();
         c.shadowBlur = 0;
 
-        // Moon (not sun)
-        if (this.velocity > 0) {
-            c.beginPath();
-            c.arc(this.moon.x, this.moon.y, 2, 0, Math.PI * 2, false);
-            c.fillStyle = 'gray';
-            c.fill();
+
+        // label
+        if (this.name !== 'Sun'){
+            c.font = "35px Arial";
+            c.fillText(this.name, this.x + 5 , this.y + 5);
         }
     }
 
@@ -82,48 +88,141 @@ class Planet {
         this.draw();
         if (this.velocity > 0) {
             this.radian += this.velocity;
-            this.moon.radian += this.moon.velocity;
-            this.moon.x =
-                this.x + Math.cos(this.moon.radian) * (this.radius + 5);
-            this.moon.y =
-                this.y + Math.sin(this.moon.radian) * (this.radius + 5);
-
             this.x = this.startX + Math.cos(this.radian) * this.orbitRadius;
             this.y = this.startY + Math.sin(this.radian) * this.orbitRadius;
         }
     }
 }
 
-const getPlanetForOptions = (radius, velocity, orbitRadius, color) =>
+const getPlanetForOptions = (radius, velocity, orbitRadius, color, name) =>
     new Planet(
         canvas.width / 2,
         canvas.height / 2,
         radius,
         color,
         velocity / 1000,
-        orbitRadius
+        orbitRadius,
+        name
     );
 
 let planets;
 let stars;
+let drawn = false
+
 function init() {
-    planets = [];
-    stars = [];
+    let p1 = c.transformedPoint(0,0);
+    let p2 = c.transformedPoint(canvas.width,canvas.height);
+    c.clearRect(p1.x,p1.y,p2.x-p1.x,p2.y-p1.y);
 
-    planets.push(getPlanetForOptions(35, 0, 0, 'yellow')); // sun
-    planets.push(getPlanetForOptions(5, 5, 65, 'gray')); // mercury
-    planets.push(getPlanetForOptions(10, 4, 90, 'orange')); // venus
-    planets.push(getPlanetForOptions(15, 3, 125, 'blue')); // earth
-    planets.push(getPlanetForOptions(20, 3.5, 175, 'red')); // mars
-    planets.push(getPlanetForOptions(25, 3, 225, 'orange')); // jupiter
-    planets.push(getPlanetForOptions(20, 2.5, 275, 'yellow')); // saturn
-    planets.push(getPlanetForOptions(15, 2, 325, 'blue')); // uranus
-    planets.push(getPlanetForOptions(25, 1.5, 375, 'purple')); // neptune
-    planets.push(getPlanetForOptions(7, 1, 450, 'gray')); // pluto
+    if (!drawn) {
 
-    for (let i = 0; i < 400; i++) {
-        stars.push(new Star());
+        console.log("drawing", innerWidth)
+        console.log("drawing", innerHeight)
+        console.log("canvas.width: ", canvas.width)
+        console.log("canvas.height: ", canvas.height)
+
+        drawn = true
+
+        planets = [];
+        stars = [];
+
+        // https://earthsky.org/space/what-is-the-astronomical-unit
+        // https://www.exploratorium.edu/ronh/solar_system/scale.pdf
+        let mercuryAuMiles = .39
+        let venusAuMiles = .723
+        let earthAuMiles = 1
+        let marsAuMiles = 1.524
+        let jupiterAuMiles = 5.203
+        let saturnAuMiles = 9.582
+        let uranusAuMiles = 19.201
+        let neptuneAuMiles = 30.047
+
+        let sunDiameter = 1391980
+        let mercuryDiameter = 4880
+        let venusDiameter = 12100
+        let earthDiameter = 12800
+        let marsDiameter = 6800
+        let jupiterDiameter = 142000
+        let saturnDiameter = 120000
+        let uranusDiameter = 51800
+        let neptuneDiameter = 49500
+
+        // https://nssdc.gsfc.nasa.gov/planetary/factsheet/
+        let mercuryVelocity = 47.4
+        let venusVelocity = 35.0
+        let earthVelocity = 29.8
+        let marsVelocity = 24.1
+        let jupiterVelocity = 13.1
+        let saturnVelocity = 9.7
+        let uranusVelocity = 6.8
+        let neptuneVelocity = 5.4
+
+        let sunRadius = 50
+        let mercuryRadius = sunRadius * (mercuryDiameter/sunDiameter)
+        let venusRadius = sunRadius * (venusDiameter/sunDiameter)
+        let earthRadius = sunRadius * (earthDiameter/sunDiameter)
+        let marsRadius = sunRadius * (marsDiameter/sunDiameter)
+        let jupiterRadius = sunRadius * (jupiterDiameter/sunDiameter)
+        let saturnRadius = sunRadius * (saturnDiameter/sunDiameter)
+        let uranusRadius = sunRadius * (uranusDiameter/sunDiameter)
+        let neptuneRadius = sunRadius * (neptuneDiameter/sunDiameter)
+
+        let earthAuToPixel = 100 + sunRadius
+        let mercuryOrbitRadius = earthAuToPixel * mercuryAuMiles
+        let venusOrbitRadius = earthAuToPixel * venusAuMiles
+        let earthOrbitRadius = earthAuToPixel * earthAuMiles
+        let marsOrbitRadius = earthAuToPixel * marsAuMiles
+        let jupiterOrbitRadius = earthAuToPixel * jupiterAuMiles
+        let saturnOrbitRadius = earthAuToPixel * saturnAuMiles
+        let uranusOrbitRadius = earthAuToPixel * uranusAuMiles
+        let neptuneOrbitRadius = earthAuToPixel * neptuneAuMiles
+
+        let maxVelocity = 30
+        let mercuryCanvasVelocity = maxVelocity
+        let venusCanvasVelocity = maxVelocity * (venusVelocity/mercuryVelocity)
+        let earthCanvasVelocity = maxVelocity * (earthVelocity/mercuryVelocity)
+        let marsCanvasVelocity = maxVelocity * (marsVelocity/mercuryVelocity)
+        let jupierCanvasVelocity = maxVelocity * (jupiterVelocity/mercuryVelocity)
+        let saturnCanvasVelocity = maxVelocity * (saturnVelocity/mercuryVelocity)
+        let urnausCanvasVelocity = maxVelocity * (uranusVelocity/mercuryVelocity)
+        let neptuneCanvasVelocity = maxVelocity * (neptuneVelocity/mercuryVelocity)
+
+        console.log('mercuryCanvasVelocity: ', mercuryCanvasVelocity)
+        console.log('venusCanvasVelocity: ', venusCanvasVelocity)
+        console.log('earthCanvasVelocity: ', earthCanvasVelocity)
+        console.log('marsCanvasVelocity: ', marsCanvasVelocity)
+        console.log('jupierCanvasVelocity: ', jupierCanvasVelocity)
+        console.log('saturnCanvasVelocity: ', saturnCanvasVelocity)
+        console.log('urnausCanvasVelocity: ', urnausCanvasVelocity)
+        console.log('neptuneCanvasVelocity: ', neptuneCanvasVelocity)
+
+        planets.push(getPlanetForOptions(sunRadius, 0, 0, 'yellow', "Sun")); // sun
+        planets.push(getPlanetForOptions(mercuryRadius, mercuryCanvasVelocity, mercuryOrbitRadius, 'pink', "Mercury")); // mercury
+        planets.push(getPlanetForOptions(venusRadius, venusCanvasVelocity, venusOrbitRadius, 'orange', "Venus")); // venus
+        planets.push(getPlanetForOptions(earthRadius, earthCanvasVelocity, earthOrbitRadius, 'blue', "Earth")); // earth
+        planets.push(getPlanetForOptions(marsRadius, marsCanvasVelocity, marsOrbitRadius, 'red', "Mars")); // mars
+        planets.push(getPlanetForOptions(jupiterRadius, jupierCanvasVelocity, jupiterOrbitRadius, 'orange', "Jupiter")); // jupiter
+        planets.push(getPlanetForOptions(saturnRadius, saturnCanvasVelocity, saturnOrbitRadius, 'yellow', "Saturn")); // saturn
+        planets.push(getPlanetForOptions(uranusRadius, urnausCanvasVelocity, uranusOrbitRadius, 'lightblue', "Uranus")); // uranus
+        planets.push(getPlanetForOptions(neptuneRadius, neptuneCanvasVelocity, neptuneOrbitRadius, 'purple', "Neptune")); // neptune
+
+        for (let i = 0; i < numOfStars; i++) {
+            stars.push(new Star());
+        }
+
+        let pt = c.transformedPoint(innerWidth/2, innerHeight/2);
+        c.translate(pt.x,pt.y);
+        let factor = .2 // control the initial load zoom
+        c.scale(factor,factor);
+        c.translate(-canvas.width/2, -canvas.width/2);
     }
+}
+
+function resetZoom() {
+    drawn = false
+    lastX = canvas.width/2
+    lastY = canvas.height/2;
+    init()
 }
 
 // Animation Loop
@@ -140,6 +239,124 @@ function animate() {
     planets.forEach(planet => {
         planet.update();
     });
+}
+
+function trackTransforms(ctx){
+    let svg = document.createElementNS("http://www.w3.org/2000/svg",'svg');
+    let xform = svg.createSVGMatrix();
+    ctx.getTransform = function(){ return xform; };
+
+    let savedTransforms = [];
+    let save = ctx.save;
+    ctx.save = function(){
+        savedTransforms.push(xform.translate(0,0));
+        return save.call(ctx);
+    };
+
+    let restore = ctx.restore;
+    ctx.restore = function(){
+        xform = savedTransforms.pop();
+        return restore.call(ctx);
+    };
+
+    let scale = ctx.scale;
+    ctx.scale = function(sx,sy){
+        xform = xform.scaleNonUniform(sx,sy);
+        return scale.call(ctx,sx,sy);
+    };
+
+    let rotate = ctx.rotate;
+    ctx.rotate = function(radians){
+        xform = xform.rotate(radians*180/Math.PI);
+        return rotate.call(ctx,radians);
+    };
+
+    let translate = ctx.translate;
+    ctx.translate = function(dx,dy){
+        xform = xform.translate(dx,dy);
+        return translate.call(ctx,dx,dy);
+    };
+
+    let transform = ctx.transform;
+    ctx.transform = function(a,b,c,d,e,f){
+        let m2 = svg.createSVGMatrix();
+        m2.a=a; m2.b=b; m2.c=c; m2.d=d; m2.e=e; m2.f=f;
+        xform = xform.multiply(m2);
+        return transform.call(ctx,a,b,c,d,e,f);
+    };
+
+    let setTransform = ctx.setTransform;
+    ctx.setTransform = function(a,b,c,d,e,f){
+        xform.a = a;
+        xform.b = b;
+        xform.c = c;
+        xform.d = d;
+        xform.e = e;
+        xform.f = f;
+        return setTransform.call(ctx,a,b,c,d,e,f);
+    };
+
+    let pt  = svg.createSVGPoint();
+    ctx.transformedPoint = function(x,y){
+        pt.x=x; pt.y=y;
+        return pt.matrixTransform(xform.inverse());
+    }
+}
+
+let lastX=canvas.width/2
+let lastY=canvas.height/2;
+let dragStart
+let dragged
+
+canvas.addEventListener('mousedown',function(evt){
+    document.body.style.mozUserSelect = document.body.style.webkitUserSelect = document.body.style.userSelect = 'none';
+    lastX = evt.offsetX || (evt.pageX - canvas.offsetLeft);
+    lastY = evt.offsetY || (evt.pageY - canvas.offsetTop);
+    dragStart = c.transformedPoint(lastX,lastY);
+    dragged = false;
+},false);
+
+canvas.addEventListener('mousemove',function(evt){
+    lastX = evt.offsetX || (evt.pageX - canvas.offsetLeft);
+    lastY = evt.offsetY || (evt.pageY - canvas.offsetTop);
+    dragged = true;
+    if (dragStart){
+        let pt = c.transformedPoint(lastX,lastY);
+        c.translate(pt.x-dragStart.x,pt.y-dragStart.y);
+        init();
+    }
+},false);
+
+canvas.addEventListener('mouseup',function(evt){
+    dragStart = null;
+    if (!dragged) zoom(evt.shiftKey ? -1 : 1 );
+},false);
+
+let handleScroll = function(evt){
+    let delta = evt.wheelDelta ? evt.wheelDelta/40 : evt.detail ? -evt.detail : 0;
+    if (delta) zoom(delta);
+    return evt.preventDefault() && false;
+};
+canvas.addEventListener('DOMMouseScroll',handleScroll,false);
+canvas.addEventListener('mousewheel',handleScroll,false);
+
+let scaleFactor = 1.1;
+let zoom = function(clicks){
+    console.log('clicks: ', clicks)
+    console.log('lastX: ', lastX)
+    console.log('lastY: ', lastY)
+
+    let pt = c.transformedPoint(lastX, lastY);
+    c.translate(pt.x,pt.y);
+    let factor = Math.pow(scaleFactor,clicks);
+
+    console.log("factor: ", factor)
+    console.log("scaleFactor: ", scaleFactor)
+    console.log("c.translate(-pt.x,-pt.y): ", -pt.x,-pt.y)
+
+    c.scale(factor,factor);
+    c.translate(-pt.x, -pt.y);
+    init();
 }
 
 init();
