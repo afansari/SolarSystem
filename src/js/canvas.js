@@ -1,6 +1,7 @@
 console.log("innerWidth", innerWidth)
 console.log("innerHeight", innerHeight)
 
+
 const numOfStars = 15000
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
@@ -32,8 +33,15 @@ class Star {
     }
 }
 
+function format(num) {
+    return Number(parseFloat(num).toFixed(2)).toLocaleString('en', {
+        minimumFractionDigits: 2
+    })
+}
+
+
 class Planet {
-    constructor(x, y, radius, color, velocity, orbitRadius, name) {
+    constructor(x, y, radius, color, velocity, orbitRadius, name, actualAu, scaledAu, actualDiameter, scaledDiameter) {
         this.name = name;
         this.x = x;
         this.y = y;
@@ -50,6 +58,11 @@ class Planet {
             radian: 0,
             velocity: (Math.random() + 0.1) / 30
         };
+
+        this.actualAu = actualAu
+        this.scaledAu = scaledAu
+        this.actualDiameter = actualDiameter
+        this.scaledDiameter = scaledDiameter
     }
 
     draw() {
@@ -79,14 +92,19 @@ class Planet {
 
         // label
         if (this.name !== 'Sun'){
-            c.font = "35px Arial";
-            c.fillText(this.name, this.x + 5 , this.y + 5);
+        const xOffset = 5
+            c.font = "30px Arial";
+            c.fillText(this.name, this.x + xOffset , this.y + 5);
+            c.font = "8px Arial";
+            c.fillText(`Actual AU: ${this.actualAu} | Scaled AU: ${this.scaledAu} pixels from Sun`, this.x + xOffset , this.y + 30);
+            c.fillText(`Actual Diameter: ${format(this.actualDiameter)}(km) | Scaled Diameter: ${format(this.scaledDiameter)}pixels`, this.x + xOffset , this.y + 50);
         }
     }
 
     update() {
         this.draw();
         if (this.velocity > 0) {
+//            console.log("update")
             this.radian += this.velocity;
             this.x = this.startX + Math.cos(this.radian) * this.orbitRadius;
             this.y = this.startY + Math.sin(this.radian) * this.orbitRadius;
@@ -94,15 +112,19 @@ class Planet {
     }
 }
 
-const getPlanetForOptions = (radius, velocity, orbitRadius, color, name) =>
+const getPlanetForOptions = (radius, velocity, orbitRadius, color, name, actualAu, scaledAu, actualDiameter, scaledDiameter) =>
     new Planet(
         canvas.width / 2,
         canvas.height / 2,
         radius,
         color,
-        velocity / 1000,
+        velocity / 4000,
         orbitRadius,
-        name
+        name,
+        actualAu,
+        scaledAu,
+        actualDiameter,
+        scaledDiameter
     );
 
 let planets;
@@ -129,13 +151,13 @@ function init() {
         // https://earthsky.org/space/what-is-the-astronomical-unit
         // https://www.exploratorium.edu/ronh/solar_system/scale.pdf
         let mercuryAuMiles = .39
-        let venusAuMiles = .723
+        let venusAuMiles = .72
         let earthAuMiles = 1
-        let marsAuMiles = 1.524
-        let jupiterAuMiles = 5.203
-        let saturnAuMiles = 9.582
-        let uranusAuMiles = 19.201
-        let neptuneAuMiles = 30.047
+        let marsAuMiles = 1.52
+        let jupiterAuMiles = 5.20
+        let saturnAuMiles = 9.54
+        let uranusAuMiles = 19.2
+        let neptuneAuMiles = 30.1
 
         let sunDiameter = 1391980
         let mercuryDiameter = 4880
@@ -157,17 +179,29 @@ function init() {
         let uranusVelocity = 6.8
         let neptuneVelocity = 5.4
 
-        let sunRadius = 50
-        let mercuryRadius = sunRadius * (mercuryDiameter/sunDiameter)
-        let venusRadius = sunRadius * (venusDiameter/sunDiameter)
-        let earthRadius = sunRadius * (earthDiameter/sunDiameter)
-        let marsRadius = sunRadius * (marsDiameter/sunDiameter)
-        let jupiterRadius = sunRadius * (jupiterDiameter/sunDiameter)
-        let saturnRadius = sunRadius * (saturnDiameter/sunDiameter)
-        let uranusRadius = sunRadius * (uranusDiameter/sunDiameter)
-        let neptuneRadius = sunRadius * (neptuneDiameter/sunDiameter)
+        let sunRadius = 50 // pixels
+        // planet_radius_in_pixels = sun_radius_in_pixels * (planet_real_radius_in_km/sun_real_radius_in_km)
+        let mercuryRadius = sunRadius * ( (mercuryDiameter/2) / (sunDiameter/2) )
+        let venusRadius = sunRadius * ( (venusDiameter/2) / (sunDiameter/2) )
+        let earthRadius = sunRadius * ( (earthDiameter/2) / (sunDiameter/2) )
+        let marsRadius = sunRadius * ( (marsDiameter/2) / (sunDiameter/2) )
+        let jupiterRadius = sunRadius * ( (jupiterDiameter/2) / (sunDiameter/2) )
+        let saturnRadius = sunRadius * ( (saturnDiameter/2) / (sunDiameter/2) )
+        let uranusRadius = sunRadius * ( (uranusDiameter/2) / (sunDiameter/2) )
+        let neptuneRadius = sunRadius * ( (neptuneDiameter/2) / (sunDiameter/2) )
 
-        let earthAuToPixel = 100 + sunRadius
+        console.log("mercuryDiameter: ", mercuryRadius * 2)
+        console.log("venusDiameter: ", venusRadius * 2)
+        console.log("earthDiameter ", earthRadius * 2)
+        console.log("marsDiameter ", marsRadius * 2)
+        console.log("jupiterDiameter ", jupiterRadius * 2)
+        console.log("saturnDiameter ", saturnRadius * 2)
+        console.log("uranusDiameter ", uranusRadius * 2)
+        console.log("neptuneDiameter ", neptuneRadius * 2)
+
+        let earthAuToPixel = 100 + sunRadius // pixels
+        // earthAuToPixel = 100pixels + sunRadiusInPixels
+        // planet_au_in_pixels = earthAuToPixel * (planet_real_au)
         let mercuryOrbitRadius = earthAuToPixel * mercuryAuMiles
         let venusOrbitRadius = earthAuToPixel * venusAuMiles
         let earthOrbitRadius = earthAuToPixel * earthAuMiles
@@ -177,7 +211,16 @@ function init() {
         let uranusOrbitRadius = earthAuToPixel * uranusAuMiles
         let neptuneOrbitRadius = earthAuToPixel * neptuneAuMiles
 
-        let maxVelocity = 30
+        console.log("earthAuToPixel: ", earthAuToPixel)
+        console.log("mercuryOrbitRadius: ", mercuryOrbitRadius)
+        console.log("venusOrbitRadius: ", venusOrbitRadius)
+        console.log("marsOrbitRadius : ", marsOrbitRadius )
+        console.log("jupiterOrbitRadius : ", jupiterOrbitRadius )
+        console.log("saturnOrbitRadius : ", saturnOrbitRadius )
+        console.log("uranusOrbitRadius : ", uranusOrbitRadius )
+        console.log("neptuneOrbitRadius : ", neptuneOrbitRadius )
+
+        let maxVelocity = 50
         let mercuryCanvasVelocity = maxVelocity
         let venusCanvasVelocity = maxVelocity * (venusVelocity/mercuryVelocity)
         let earthCanvasVelocity = maxVelocity * (earthVelocity/mercuryVelocity)
@@ -197,14 +240,14 @@ function init() {
         console.log('neptuneCanvasVelocity: ', neptuneCanvasVelocity)
 
         planets.push(getPlanetForOptions(sunRadius, 0, 0, 'yellow', "Sun")); // sun
-        planets.push(getPlanetForOptions(mercuryRadius, mercuryCanvasVelocity, mercuryOrbitRadius, 'pink', "Mercury")); // mercury
-        planets.push(getPlanetForOptions(venusRadius, venusCanvasVelocity, venusOrbitRadius, 'orange', "Venus")); // venus
-        planets.push(getPlanetForOptions(earthRadius, earthCanvasVelocity, earthOrbitRadius, 'blue', "Earth")); // earth
-        planets.push(getPlanetForOptions(marsRadius, marsCanvasVelocity, marsOrbitRadius, 'red', "Mars")); // mars
-        planets.push(getPlanetForOptions(jupiterRadius, jupierCanvasVelocity, jupiterOrbitRadius, 'orange', "Jupiter")); // jupiter
-        planets.push(getPlanetForOptions(saturnRadius, saturnCanvasVelocity, saturnOrbitRadius, 'yellow', "Saturn")); // saturn
-        planets.push(getPlanetForOptions(uranusRadius, urnausCanvasVelocity, uranusOrbitRadius, 'lightblue', "Uranus")); // uranus
-        planets.push(getPlanetForOptions(neptuneRadius, neptuneCanvasVelocity, neptuneOrbitRadius, 'purple', "Neptune")); // neptune
+        planets.push(getPlanetForOptions(mercuryRadius, mercuryCanvasVelocity, mercuryOrbitRadius, 'pink', "Mercury", mercuryAuMiles, mercuryOrbitRadius, mercuryDiameter, mercuryRadius * 2)); // mercury
+        planets.push(getPlanetForOptions(venusRadius, venusCanvasVelocity, venusOrbitRadius, 'orange', "Venus", venusAuMiles, venusOrbitRadius, venusDiameter, venusRadius * 2)); // venus
+        planets.push(getPlanetForOptions(earthRadius, earthCanvasVelocity, earthOrbitRadius, 'blue', "Earth", earthAuMiles, earthOrbitRadius, earthDiameter, earthRadius * 2)); // earth
+        planets.push(getPlanetForOptions(marsRadius, marsCanvasVelocity, marsOrbitRadius, 'red', "Mars", marsAuMiles, marsOrbitRadius,  marsDiameter, marsRadius * 2)); // mars
+        planets.push(getPlanetForOptions(jupiterRadius, jupierCanvasVelocity, jupiterOrbitRadius, 'orange', "Jupiter", jupiterAuMiles, jupiterOrbitRadius, jupiterDiameter, jupiterRadius * 2)); // jupiter
+        planets.push(getPlanetForOptions(saturnRadius, saturnCanvasVelocity, saturnOrbitRadius, 'yellow', "Saturn", saturnAuMiles, saturnOrbitRadius, saturnDiameter, saturnRadius * 2)); // saturn
+        planets.push(getPlanetForOptions(uranusRadius, urnausCanvasVelocity, uranusOrbitRadius, 'lightblue', "Uranus", uranusAuMiles, uranusOrbitRadius, uranusDiameter, uranusRadius * 2)); // uranus
+        planets.push(getPlanetForOptions(neptuneRadius, neptuneCanvasVelocity, neptuneOrbitRadius, '#E9DEFF', "Neptune", neptuneAuMiles, neptuneOrbitRadius, neptuneDiameter, neptuneRadius * 2)); // neptune
 
         for (let i = 0; i < numOfStars; i++) {
             stars.push(new Star());
@@ -212,7 +255,7 @@ function init() {
 
         let pt = c.transformedPoint(innerWidth/2, innerHeight/2);
         c.translate(pt.x,pt.y);
-        let factor = .2 // control the initial load zoom
+        let factor = .17 // control the initial load zoom
         c.scale(factor,factor);
         c.translate(-canvas.width/2, -canvas.width/2);
     }
@@ -227,6 +270,7 @@ function resetZoom() {
 
 // Animation Loop
 function animate() {
+
     requestAnimationFrame(animate);
     c.clearRect(0, 0, canvas.width, canvas.height);
     c.fillStyle = 'rgb(0, 0, 0)';
@@ -239,6 +283,7 @@ function animate() {
     planets.forEach(planet => {
         planet.update();
     });
+
 }
 
 function trackTransforms(ctx){
@@ -332,13 +377,13 @@ canvas.addEventListener('mouseup',function(evt){
     if (!dragged) zoom(evt.shiftKey ? -1 : 1 );
 },false);
 
-let handleScroll = function(evt){
-    let delta = evt.wheelDelta ? evt.wheelDelta/40 : evt.detail ? -evt.detail : 0;
-    if (delta) zoom(delta);
-    return evt.preventDefault() && false;
-};
-canvas.addEventListener('DOMMouseScroll',handleScroll,false);
-canvas.addEventListener('mousewheel',handleScroll,false);
+//let handleScroll = function(evt){
+//    let delta = evt.wheelDelta ? evt.wheelDelta/40 : evt.detail ? -evt.detail : 0;
+//    if (delta) zoom(delta);
+//    return evt.preventDefault() && false;
+//};
+//canvas.addEventListener('DOMMouseScroll',handleScroll,false);
+//canvas.addEventListener('mousewheel',handleScroll,false);
 
 let scaleFactor = 1.1;
 let zoom = function(clicks){

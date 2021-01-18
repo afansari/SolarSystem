@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>solar system at scale: ASU Prep 2021 6th Grade Science Class</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
+<!--    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"></link>-->
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf" crossorigin="anonymous"></script>
+<!--    <script src="https://kit.fontawesome.com/a2ff93b2cc.js" crossorigin="anonymous"></script>-->
+
+    <style>
+      body {
+        margin: 0;
+        height:100%;
+        width:100%;
+        margin:0px;
+        padding:0px;
+      }
+
+      iframe {
+        overflow:hidden;
+        overflow-x:hidden;
+        overflow-y:hidden;
+        overflow:hidden;
+        height:1000px;
+        width:100%;
+      }
+
+      .tab-pane {
+        margin-top:50px
+      }
+    </style>
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#"><i class="fa fa-globe fa-lg text-primary" aria-hidden="true"></i> Solar System At Scale</a>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <a class="btn btn-outline-secondary my-2 my-sm-0" type="submit" href="https://github.com/afansari/SolarSystem" target="_blank">
+                <i class="fa fa-github-alt" aria-hidden="true"></i>
+                My Github
+            </a>
+        </form>
+    </div>
+</nav>
+
+<div class="container-fluid mt-5">
+    <h3>ASU Prep 2021: 6th Grade Science Class</h3>
+
+    <ul class="nav nav-tabs mt-5" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="instructions-tab" data-toggle="tab" href="#instructions">Instructions</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="scales-tab" data-toggle="tab" href="#scales">Scales</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="how-tab" data-toggle="tab" href="#how">How I Made the Solar System</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="references-tab" data-toggle="tab" href="#references">References</a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane active" id="instructions" role="tabpanel" aria-labelledby="instructions-tab">
+
+            <h5>How to Navigate Solar System</h5>
+            <ol>
+                <li>To zoom in put the mouse where you want to zoom and click.</li>
+                <li>To zoom out hold shift and click where you want to zoom out. </li>
+                <li>to pan you have to click, hold, drag to where you want to pan, and release when done. </li>
+                <li>If you get lost hit reset</li>
+            </ol>
+        </div>
+        <div class="tab-pane" id="scales" role="tabpanel" aria-labelledby="scales-tab">
+            <strong>
+                Formulas:
+                <ul>
+                    <li>
+                        <var class="text-primary">planet_radius_in_pixels</var> = <var>sun_radius_in_pixels</var> * (<var>planet_real_radius_in_km</var> / <var>sun_real_radius_in_km</var>)
+                    </li>
+                    <li><var class="text-primary">earth_au_pixels</var> = <var>100pixels</var> + <var>sun_radius_in_pixels</var></li>
+                    <li><var class="text-primary">planet_au_in_pixels</var> = <var>earth_au_pixels</var> * <var>planet_real_au</var></li>
+                </ul>
+            </strong>
+
+            <br/>
+            <strong>
+                Legend:
+                <ul>
+                    <li>
+                        <var class="text-primary">HTML5 Canvas Dimension</var> = 13000 pixels X 13000 pixels
+                    </li>
+                    <li><var class="text-primary">sun_radius_in_pixels</var> = 50 pixels</li>
+                    <li><var class="text-primary">AU</var> – astronomical unit, which is the distance from the Earth to the Sun.</li>
+                </ul>
+            </strong>
+            <table class="table table-bordered mt-5">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Planet Name</th>
+                    <th scope="col">Actual Diameter (kilometers)</th>
+                    <th scope="col">Scaled Diameter (pixels)</th>
+                    <th scope="col">Actual Distance from Sun (AU)</th>
+                    <th scope="col">Scaled Distance from Sun (pixels)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mercury</td>
+                    <td>4,880</td>
+                    <td>0.351</td>
+                    <td>0.39</td>
+                    <td>58.5</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Venus</td>
+                    <td>12,100</td>
+                    <td>0.869</td>
+                    <td>0.72</td>
+                    <td>108</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>Earth</td>
+                    <td>12,800</td>
+                    <td> 0.920</td>
+                    <td>1.00</td>
+                    <td>150</td>
+                </tr>
+                <tr>
+                    <th scope="row">4</th>
+                    <td>Mars</td>
+                    <td>6,800</td>
+                    <td>0.489</td>
+                    <td>1.52</td>
+                    <td>228</td>
+                </tr>
+                <tr>
+                    <th scope="row">5</th>
+                    <td>Jupiter</td>
+                    <td>142,000</td>
+                    <td>10.201</td>
+                    <td>5.20</td>
+                    <td>780</td>
+                </tr>
+                <tr>
+                    <th scope="row">6</th>
+                    <td>Saturn</td>
+                    <td>120,000</td>
+                    <td>8.621</td>
+                    <td>9.54</td>
+                    <td>1,431</td>
+                <tr>
+                    <th scope="row">7</th>
+                    <td>Uranus</td>
+                    <td>51,800</td>
+                    <td>3.721</td>
+                    <td>19.2</td>
+                    <td>2,880</td>
+                <tr>
+                    <th scope="row">8</th>
+                    <td>Neptune</td>
+                    <td>49,500</td>
+                    <td>3.556</td>
+                    <td>30.1</td>
+                    <td>4,515</td>
+                </tr>
+                </tr>
+                </tr>
+                </tbody>
+            </table>
+
+            <hr/>
+            <img src="assets/images/solarscalefullfinal.png" />
+        </div>
+        <div class="tab-pane" id="how" role="tabpanel" aria-labelledby="how-tab">
+            <ol>
+                <li>
+                    I researched how to make a scaled down model of the solar system using JavaScript and HTML5.
+                    <br/>
+                    <a href="https://medium.com/swlh/html-5-canvas-solar-system-e1e18204b123" target="_blank">This</a> is the blog I used to start my project from.
+                </li>
+                <li>
+                    I cloned the <a href="https://github.com/bbaars/SolarSystem.git" target="_blank">open source project</a>
+                    from the blog as a starting point for <a href="https://github.com/afansari/SolarSystem" target="_blank">my project</a>.
+                    <br/>
+                    <br/>
+                    <h6>Notes: The original project did not have:</h6>
+                    <ul>
+                        <li>The planets size scaled relative to the sun.</li>
+                        <li>The planet distance scaled relative to the sun.</li>
+                        <li>The planet orbit velocity relative to other planets.</li>
+                        <li>The ability to zoom in and out of the solar system model.</li>
+                        <li>The ability to pan around the solar system model.</li>
+                    </ul>
+                </li>
+                <li> With my dads help, I added the code to scale objects and distances, zoom in and out, pan around, and host the project on the Cloud.</li>
+
+            </ol>
+        </div>
+        <div class="tab-pane" id="references" role="tabpanel" aria-labelledby="references-tab">
+            <ol>
+                <li>
+                    <a href="https://medium.com/swlh/html-5-canvas-solar-system-e1e18204b123" target="_blank">https://medium.com/swlh/html-5-canvas-solar-system-e1e18204b123</a>
+                </li>
+                <li>
+                    <a href="https://github.com/bbaars/SolarSystem.git" target="_blank">https://github.com/bbaars/SolarSystem.git</a>
+                </li>
+                <li>
+                    <a href="https://github.com/ofrohn/d3-orrery" target="_blank">https://github.com/ofrohn/d3-orrery</a>
+                </li>
+                <li>
+                    <a href="https://ofrohn.github.io" target="_blank">https://ofrohn.github.io</a>
+                </li>
+                <li>
+                    <a href="https://earthsky.org/space/what-is-the-astronomical-unit" target="_blank">https://earthsky.org/space/what-is-the-astronomical-unit</a>
+                </li>
+                <li>
+                    <a href="https://www.exploratorium.edu/ronh/solar_system/scale.pdf" target="_blank">https://www.exploratorium.edu/ronh/solar_system/scale.pdf</a>
+                </li>
+                <li>
+                    <a href="https://getbootstrap.com/docs/4.0" target="_blank">https://getbootstrap.com/docs/4.0</a>
+                </li>
+                <li>
+                    <a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/" target="_blank">https://nssdc.gsfc.nasa.gov/planetary/factsheet/</a>
+                </li>
+
+            </ol>
+
+        </div>
+    </div>
+
+    <hr/>
+
+    <div style="margin:0px;padding:50px;overflow:hidden">
+        <button class="btn btn-primary mb-4" onclick="reset()">Reset</button>
+
+        <iframe id="iframe" src="index.html" frameborder="0" style=""></iframe>
+    </div>
+
+</div>
+
+
+</body>
+<script>
+
+    function reset(){
+        document.getElementById('iframe').contentWindow.location.reload()
+    }
+
+</script>
+</html>
