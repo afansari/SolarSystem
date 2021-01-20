@@ -7,8 +7,8 @@ const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 trackTransforms(c)
 
-canvas.width = 13000
-canvas.height = 13000
+canvas.width = 10000
+canvas.height = 10000
 
 addEventListener('resize', () => {
     canvas.width = innerWidth;
@@ -118,7 +118,7 @@ const getPlanetForOptions = (radius, velocity, orbitRadius, color, name, actualA
         canvas.height / 2,
         radius,
         color,
-        velocity / 4000,
+        velocity / 3500,
         orbitRadius,
         name,
         actualAu,
@@ -242,7 +242,7 @@ function init() {
         planets.push(getPlanetForOptions(sunRadius, 0, 0, 'yellow', "Sun")); // sun
         planets.push(getPlanetForOptions(mercuryRadius, mercuryCanvasVelocity, mercuryOrbitRadius, 'pink', "Mercury", mercuryAuMiles, mercuryOrbitRadius, mercuryDiameter, mercuryRadius * 2)); // mercury
         planets.push(getPlanetForOptions(venusRadius, venusCanvasVelocity, venusOrbitRadius, 'orange', "Venus", venusAuMiles, venusOrbitRadius, venusDiameter, venusRadius * 2)); // venus
-        planets.push(getPlanetForOptions(earthRadius, earthCanvasVelocity, earthOrbitRadius, 'blue', "Earth", earthAuMiles, earthOrbitRadius, earthDiameter, earthRadius * 2)); // earth
+        planets.push(getPlanetForOptions(earthRadius, earthCanvasVelocity, earthOrbitRadius, '#1e90ff', "Earth", earthAuMiles, earthOrbitRadius, earthDiameter, earthRadius * 2)); // earth
         planets.push(getPlanetForOptions(marsRadius, marsCanvasVelocity, marsOrbitRadius, 'red', "Mars", marsAuMiles, marsOrbitRadius,  marsDiameter, marsRadius * 2)); // mars
         planets.push(getPlanetForOptions(jupiterRadius, jupierCanvasVelocity, jupiterOrbitRadius, 'orange', "Jupiter", jupiterAuMiles, jupiterOrbitRadius, jupiterDiameter, jupiterRadius * 2)); // jupiter
         planets.push(getPlanetForOptions(saturnRadius, saturnCanvasVelocity, saturnOrbitRadius, 'yellow', "Saturn", saturnAuMiles, saturnOrbitRadius, saturnDiameter, saturnRadius * 2)); // saturn
@@ -255,7 +255,7 @@ function init() {
 
         let pt = c.transformedPoint(innerWidth/2, innerHeight/2);
         c.translate(pt.x,pt.y);
-        let factor = .17 // control the initial load zoom
+        let factor = .18 // control the initial load zoom
         c.scale(factor,factor);
         c.translate(-canvas.width/2, -canvas.width/2);
     }
