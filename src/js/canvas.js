@@ -7,8 +7,8 @@ const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 trackTransforms(c)
 
-canvas.width = 10000
-canvas.height = 10000
+canvas.width = 13000
+canvas.height = 13000
 
 addEventListener('resize', () => {
     canvas.width = innerWidth;

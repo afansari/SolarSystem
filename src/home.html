@@ -41,7 +41,7 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="#"><i class="fa fa-globe fa-lg text-primary" aria-hidden="true"></i> Solar System At Scale</a>
+    <a class="navbar-brand" href="#"><i class="fa fa-globe fa-lg text-primary" aria-hidden="true"></i> Solar System At Scale Digital Copy </a>
 
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
@@ -67,6 +67,9 @@
             <a class="nav-link" id="scales-tab" data-toggle="tab" href="#scales">Scales</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" id="picture-tab" data-toggle="tab" href="#pictures">Why are the planets so small?</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" id="how-tab" data-toggle="tab" href="#how">How I Made the Solar System</a>
         </li>
         <li class="nav-item">
@@ -81,8 +84,8 @@
             <ol>
                 <li>To zoom in put the mouse where you want to zoom and click.</li>
                 <li>To zoom out hold shift and click where you want to zoom out. </li>
-                <li>to pan you have to click, hold, drag to where you want to pan, and release when done. </li>
-                <li>If you get lost hit reset</li>
+                <li>To pan you have to click, hold, drag to where you want to pan, and release when you are done. </li>
+                <li>If you get lost hit the reset button.</li>
             </ol>
         </div>
         <div class="tab-pane" id="scales" role="tabpanel" aria-labelledby="scales-tab">
@@ -207,11 +210,55 @@
                         <li>The ability to pan around the solar system model.</li>
                     </ul>
                 </li>
-                <li> With my dads help, I added the code to scale objects and distances, zoom in and out, pan around, and host the project on the Cloud.</li>
+                <li> With my mom and dads help, I added the code to scale objects and distances, zoom in and out, pan around, and host the project on the Cloud.</li>
 
             </ol>
         </div>
+        <div class="tab-pane" id="pictures" role="tabpanel" aria-labelledby="picture-tab">
+            <div class="row">
+                <div class="col-9">
+                    <p>
+
+                        The planets in the model are scaled relative to the size of the Sun. In order to fit all eight orbits of the planets,
+                        I had to set the size of the canvas to 13,000 X 13,000 pixels when the Suns radius is set to 50 pixels in the model.
+                        This scale is made clear in the image on the right.
+
+                        <br/>
+                        <br/>
+
+                        <strong class="text-danger">Note:</strong>
+                        Please follow the instructions to zoom in to see the planets close up.
+
+                    </p>
+                </div>
+                <div class="col-3 text-right">
+                    <figure class="figure" style="max-width:50%;cursor:pointer" data-toggle="modal" data-target=".bd-example-modal-lg">
+                        <img src="https://sizemattersscience.files.wordpress.com/2015/02/solarscalefullfinal.png" class="img-fluid " >
+                        <figcaption class="figure-caption text-right">Click to enlarge.</figcaption>
+                    </figure>
+                </div>
+            </div>
+
+
+            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Planet sizes relative to the Sun.</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <img src="https://sizemattersscience.files.wordpress.com/2015/02/solarscalefullfinal.png" class="img-fluid " >
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
         <div class="tab-pane" id="references" role="tabpanel" aria-labelledby="references-tab">
+            <p> A special thanks to <a href="https://github.com/bbaars" target="_blank">bbaars</a> for the starting point of my project. </p>
             <ol>
                 <li>
                     <a href="https://medium.com/swlh/html-5-canvas-solar-system-e1e18204b123" target="_blank">https://medium.com/swlh/html-5-canvas-solar-system-e1e18204b123</a>
@@ -236,6 +283,9 @@
                 </li>
                 <li>
                     <a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/" target="_blank">https://nssdc.gsfc.nasa.gov/planetary/factsheet/</a>
+                </li>
+                <li>
+                    <a href="https://sizemattersscience.wordpress.com/2015/06/05/how-big-is-the-sun/" target="_blank">https://sizemattersscience.wordpress.com/2015/06/05/how-big-is-the-sun/</a>
                 </li>
 
             </ol>
